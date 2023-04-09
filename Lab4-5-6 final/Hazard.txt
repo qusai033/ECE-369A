@@ -1,0 +1,22 @@
+module HazardDetector(ID_EXMemRead, Instruct25, Instruct20, ID_EXRt, ID_EXRegWriteMux, ID_EXRd, PCWrite, Control_Mux, IF_IDWrite);
+	input ID_EXMemRead, ID_EXRegWriteMux;
+	input [4:0] Instruct25, Instruct20, ID_EXRt, ID_EXRd;
+	input [4:0] Instruct25, Instruct20, ID_EXRt, ID_EXRd; 
+    	output reg Control_Mux, IF_IDWrite, PCWrite;
+
+	always @(*) begin
+        	Control_Mux <= 1'b0; IF_IDWrite <= 1'b0; PCWrite <= 1'b0; 
+       
+		if(ID_EXMemRead == 1'b1) begin
+			if((ID_EXRt == Instruct25) || (ID_EXRt == Instruct20))begin
+                		Control_Mux <= 1'b1; IF_IDWrite <= 1'b1; PCWrite <= 1'b1;
+           		end 
+        	end
+        
+		if(ID_EXRegWriteMux == 1'b1) begin
+			if((ID_EXRd == Instruct25) || (ID_EXRd == Instruct20))begin
+                		Control_Mux <= 1'b1; IF_IDWrite <= 1'b1; PCWrite <= 1'b1;
+            		end  
+        	end
+    	end
+endmodule
